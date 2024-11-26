@@ -43,14 +43,12 @@ export const validMenuInstructions = (key, value) => {
 
         BlankCheck(`${key}[${index}].imgUrl`, imgUrl);
     })
-
-    export const validMenuPrice = (key, value) => {
-        try{
-            BlankCheck(key, value)
-            LengthCheck(key, value, 1,10);
-        } catch (e){
-            throw new CustomError(`${key}는 1이상 10이하여야 합니다.`, 400);
-        }
-    };
-
+}
+export const validMenuPrice = (key, value) => {
+    try{
+        BlankCheck(key, value)
+        LengthCheck(key, value, 1,10);
+    } catch (e){
+        throw new CustomError(`${key}는 1이상 10이하여야 합니다.`, 400);
+    }
 }
