@@ -2,7 +2,7 @@ export default {
     user: `
       CREATE TABLE IF NOT EXISTS user
       (
-          userId    char(36) PRIMARY KEY,
+          userId    Int not null PRIMARY KEY,
           tableId   Int not null,
           imgUrl    TEXT not null,
           name  varchar(10)  not null,
@@ -16,7 +16,7 @@ export default {
     menu: `
       CREATE TABLE IF NOT EXISTS menu
       (
-          menuId    char(36)  not null PRIMARY KEY,
+          menuId    Int  not null PRIMARY KEY,
           menuName  varchar(20) not null,
           menuPrice Int not null,
           description   Int not null,
@@ -28,7 +28,7 @@ export default {
     order: `
       CREATE TABLE IF NOT EXISTS order
       (
-          orderId   Int not null,
+          orderId   Int not null    PRIMARY KEY,
           menuId    Int not null,
           userId    Int not null,
           count     Int not null,
