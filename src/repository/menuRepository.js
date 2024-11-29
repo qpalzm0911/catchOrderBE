@@ -1,40 +1,48 @@
 import conn from "../db/connection.js";
 
 export default {
-    save: async (title, thumbnail, description, connection) => {
+    saveMenu: async (userId, title, thumbnail, description, price, connection) => {
         const menuSql = `
         INSERT INTO recipes
-            (menuId, title, thumbnail, description)
-        values (?, ?, ?, ?)
+            (userId, title, thumbnail, description, price)
+        values (?, ?, ?, ?, ?)
     `;
 
-        await conn.query(
-            menuSql,
-            [menuId, title, thumbnail, description],
-            connection,
-        );
+        const [result] = await conn.query(menuSql, [
+            userId,
+            title,
+            thumbnail,
+            description,
+            price,
+        ]);
 
-        return menuId;
+        return result.insertId;
     },
 
-    update: async (menuId, title, thumbnail, description, connection) => {
-        const updatemenuSql = `
+    updateMenu: async (menuId, title, thumbnail, description, price, connection) => {
+        const menuSql = `
         UPDATE menu
-        SET title = ?, thumbnail = ?, description = ?, updatedAt = CURRENT_TIMESTAMP()
+        SET title = ?, thumbnail = ?, description = ?, price = ?, updatedAt = CURRENT_TIMESTAMP()
         WHERE menuId = ?;
     `;
 
-        await conn.query(
-            updatemenuSql,
-            [title, thumbnail, description, recipeId],
-            connection,
-        );
+        const [result] = await conn.query(menuSql, [
+            title,
+            thumbnail,
+            description,
+            price,
+            menuId,
+        ]);
+
+        return result.affectedRows > 0;
     },
     deleteMenu: async (menuId) => {
-        const delMenuSql = await conn.query(
-            `DELETE FROM Bookmark WHERE menuId = ?`,
-            [menuId],
-        );
-        return delMenuSql;
+        const menuSql = `
+            DELETE FROM menu WHERE menuId = ?;
+    `;
+
+        const [result] = await conn.query(menuSql, [menuId]);
+
+        return result.affectedRows > 0;
     },
 };

@@ -4,10 +4,13 @@ import { InRange, NumberType, Positive } from "../validator/common.js";
 import {
     validMenuDescription,
     validMenuId,
-    validMenuInstructions,
     validMenuTitle,
     validMenuPrice,
 } from "../validator/menu.js";
+import {transaction} from "../db/connection.js";
+import apiResponse from "../dto/apiResponse.js";
+
+const menuController = express.Router();
 
 menuController.post("/regist", async (req, res, next) => {
     try {
@@ -16,24 +19,23 @@ menuController.post("/regist", async (req, res, next) => {
         const userId = req.session.user.userId;
         validMenuTitle("title", title);
         validMenuDescription("description", description);
-        validMenuInstructions("instructions", instructions);
         validMenuPrice("price", price);
 
         const menuId = await transaction(async (connection) => {
-            const menuId = await menuRepository.save(
+            return await menuRepository.saveMenu(
                 userId,
                 title,
                 thumbnail,
+                description,
                 price,
-                connection
+                req.connection
             );
-            return recipeId;
         });
 
         res.status(200).json(
             apiResponse.success({
-                message: "레시피가 성공적으로 등록되었습니다.",
-                result: { recipeId },
+                message: "메뉴가 성공적으로 등록되었습니다.",
+                result: { menuId },
             })
         );
     } catch (e) {
@@ -51,8 +53,8 @@ menuController.put("/update", async (req, res, next) => {
         validMenuDescription("description", description);
         validMenuPrice("price", price);
 
-        await transaction(async (connection) => {
-            await menuRepository.update(
+        const isUpdated = await transaction(async (connection) => {
+            return await menuRepository.updateMenu(
                 menuId,
                 title,
                 thumbnail,
@@ -62,10 +64,18 @@ menuController.put("/update", async (req, res, next) => {
             );
         });
 
+        if (!isUpdated) {
+            return res.status(400).json(
+                apiResponse.failure({
+                    message: "메뉴 수정에 실패했습니다.",
+                })
+            );
+        }
+
         res.status(200).json(
             apiResponse.success({
-                message: "레시피 수정에 성공했습니다.",
-                result: { recipeId },
+                message: "메뉴 수정에 성공했습니다.",
+                result: { menuId },
             })
         );
     } catch (e) {
@@ -73,22 +83,25 @@ menuController.put("/update", async (req, res, next) => {
     }
 });
 menuController.delete("/delete", async (req, res, next) => {
-    const { menuId } = req.body;
     try {
-        const del = await menuRepository.deleteMenu(menuId);
-        if (del.affectedRows) {
-            res.status(200).json(
-                apiResponse.success({
-                    message: "메뉴 삭제에 성공했습니다.",
-                }),
-            );
-        } else {
-            res.status(400).json(
+        const { menuId } = req.body;
+        const isDeleted = await transaction(async (connection) => {
+            return await menuRepository.deleteMenu(menuId, connection);
+        });
+
+        if (!isDeleted) {
+            return res.status(400).json(
                 apiResponse.failure({
                     message: "메뉴 삭제에 실패했습니다.",
-                }),
+                })
             );
         }
+
+        res.status(200).json(
+            apiResponse.success({
+                message: "메뉴 삭제에 성공했습니다.",
+            })
+        );
     } catch (e) {
         next(e);
     }
