@@ -19,31 +19,6 @@ export const validMenuTitle = (key, value) => {
     }
 };
 
-export const validMenuDescription = (key, value) => {
-    try {
-        BlankCheck(key, value);
-        LengthCheck(key, value, 10, 50);
-    } catch (e) {
-        throw new CustomError(`${key}는 10이상 50이하여야 합니다.`, 400);
-    }
-};
-
-export const validMenuInstructions = (key, value) => {
-    if (!Array.isArray(value)) {
-        throw new CustomError(`${key}는 배열이어야 합니다.`, 400);
-    }
-
-    value.forEach((instruction, index) => {
-        const {title, description, imgUrl} = instruction;
-        BlankCheck(`${key}[${index}].title`, title);
-        LengthCheck(`${key}[${index}].title`, title, 2, 20);
-
-        BlankCheck(`${key}[${index}].description`, description);
-        LengthCheck(`${key}[${index}].description`, description, 10, 50);
-
-        BlankCheck(`${key}[${index}].imgUrl`, imgUrl);
-    })
-}
 export const validMenuPrice = (key, value) => {
     try{
         BlankCheck(key, value)

@@ -1,24 +1,22 @@
 import express from "express";
 import menuRepository from "../repository/menuRepository.js";
-import { InRange, NumberType, Positive } from "../validator/common.js";
 import {
-    validMenuDescription,
     validMenuId,
     validMenuTitle,
     validMenuPrice,
 } from "../validator/menu.js";
 import {transaction} from "../db/connection.js";
 import apiResponse from "../dto/apiResponse.js";
+import menuConverter from "../dto/menuConverter.js";
 
 const menuController = express.Router();
 
 menuController.post("/regist", async (req, res, next) => {
     try {
-        const { title, thumbnail, description, price } =
+        const { title, thumbnail, price } =
             req.body;
         const userId = req.session.user.userId;
         validMenuTitle("title", title);
-        validMenuDescription("description", description);
         validMenuPrice("price", price);
 
         const menuId = await transaction(async (connection) => {
@@ -26,16 +24,17 @@ menuController.post("/regist", async (req, res, next) => {
                 userId,
                 title,
                 thumbnail,
-                description,
                 price,
-                req.connection
+                connection
             );
         });
+
+        const menuDto = menuConverter.toMenuDetail(menu);
 
         res.status(200).json(
             apiResponse.success({
                 message: "메뉴가 성공적으로 등록되었습니다.",
-                result: { menuId },
+                data: menuDto,
             })
         );
     } catch (e) {
@@ -45,12 +44,11 @@ menuController.post("/regist", async (req, res, next) => {
 
 menuController.put("/update", async (req, res, next) => {
     try {
-        const {menuId, title, thumbnail, description, price,} =
+        const {menuId, title, thumbnail, price,} =
             req.body;
 
         await validMenuId("menuId", menuId);
         validMenuTitle("title", title);
-        validMenuDescription("description", description);
         validMenuPrice("price", price);
 
         const isUpdated = await transaction(async (connection) => {
@@ -58,7 +56,6 @@ menuController.put("/update", async (req, res, next) => {
                 menuId,
                 title,
                 thumbnail,
-                description,
                 price,
                 connection
             );

@@ -14,13 +14,10 @@ export default {
             status: order.status,
             count: order.count,
             createdAt: order.createdAt,
-            updatedAt: order.updatedAt || null,
-            //user: findUser ? userConverter.toUserDetail(findUser) : null,
             menu: findMenu ? {
                 menuId: findMenu.menuId,
                 menuName: findMenu.menuName,
                 menuPrice: findMenu.menuPrice,
-                description: findMenu.description,
             } : null,
         };
     },

@@ -8,7 +8,6 @@ export default {
         values (?, ?, ?, ?)
     `;
 
-
         const [result] = await connection.query(orderSql, [
             menuId,
             userId,
