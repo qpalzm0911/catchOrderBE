@@ -1,8 +1,8 @@
 export default {
-    user: `
-      CREATE TABLE IF NOT EXISTS user
+    users: `
+      CREATE TABLE IF NOT EXISTS users
       (
-          userId    Int not null PRIMARY KEY,
+          userId    Int not null auto_increment PRIMARY KEY,
           tableId   Int not null,
           imgUrl    TEXT not null,
           name  varchar(10)  not null,
@@ -13,10 +13,10 @@ export default {
       );
   `,
 
-    menu: `
-      CREATE TABLE IF NOT EXISTS menu
+    menus: `
+      CREATE TABLE IF NOT EXISTS menus
       (
-          menuId    Int  not null PRIMARY KEY,
+          menuId    Int  not null auto_increment PRIMARY KEY,
           menuName  varchar(20) not null,
           menuPrice Int not null,
           description   Int not null,
@@ -25,10 +25,10 @@ export default {
       )
   `,
 
-    order: `
-      CREATE TABLE IF NOT EXISTS order
+    orders: `
+      CREATE TABLE IF NOT EXISTS orders
       (
-          orderId   Int not null    PRIMARY KEY,
+          orderId   Int not null auto_increment   PRIMARY KEY,
           menuId    Int not null,
           userId    Int not null,
           count     Int not null,
@@ -36,11 +36,11 @@ export default {
           createdAt timestamp    not null default current_timestamp()
       )
   `,
-    table: `
-      CREATE TABLE IF NOT EXISTS table
+    tables: `
+      CREATE TABLE IF NOT EXISTS tables
       (
-          tableId   Int not null PRIMARY KEY,
+          tableId   Int not null  auto_increment  PRIMARY KEY,
           status    Int not null
       )
-  `
+  `,
 };

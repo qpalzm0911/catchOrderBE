@@ -3,7 +3,7 @@ import conn from "../db/connection.js";
 export default {
     createOrder: async (menuId, userId, status, count, connection) => {
         const orderSql = `
-        INSERT INTO order
+        INSERT INTO orders
             (menuId, userId, status, count)
         values (?, ?, ?, ?)
     `;
@@ -38,7 +38,7 @@ export default {
 
     updateOrder: async (orderId, menuId, userId, status, count, connection) => {
         const orderSql = `
-        UPDATE order
+        UPDATE orders
         SET menuId = ?, userId = ?, status = ?, count = ?, updatedAt = CURRENT_TIMESTAMP()
         WHERE orderId = ?;
     `;
@@ -50,7 +50,7 @@ export default {
     },
     deleteOrder: async (orderId) => {
         const orderSql =
-            `DELETE FROM order 
+            `DELETE FROM orders
             WHERE orderId = ?;
     `;
 

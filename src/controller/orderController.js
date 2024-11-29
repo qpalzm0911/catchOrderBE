@@ -132,3 +132,5 @@ orderController.delete("/orders/delete", async (res, req, next) =>{
         next(e);
     }
 });
+
+export default orderController;

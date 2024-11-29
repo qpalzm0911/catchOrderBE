@@ -3,7 +3,7 @@ import conn from "../db/connection.js";
 export default {
     saveMenu: async (userId, title, thumbnail, price, connection) => {
         const menuSql = `
-        INSERT INTO recipes
+        INSERT INTO menus
             (userId, title, thumbnail, price)
         values (?, ?, ?, ?)
     `;
@@ -20,7 +20,7 @@ export default {
 
     updateMenu: async (menuId, title, thumbnail, price, connection) => {
         const menuSql = `
-        UPDATE menu
+        UPDATE menus
         SET title = ?, thumbnail = ?, price = ?, updatedAt = CURRENT_TIMESTAMP()
         WHERE menuId = ?;
     `;
@@ -36,7 +36,7 @@ export default {
     },
     deleteMenu: async (menuId) => {
         const menuSql = `
-            DELETE FROM menu WHERE menuId = ?;
+            DELETE FROM menus WHERE menuId = ?;
     `;
 
         const [result] = await conn.query(menuSql, [menuId]);
