@@ -1,46 +1,61 @@
 import conn from "../db/connection.js";
 
 export default {
-    saveMenu: async (userId, title, thumbnail, price, connection) => {
+    saveMenu: async (title, price, connection) => {
+
         const menuSql = `
         INSERT INTO menus
-            (userId, title, thumbnail, price)
-        values (?, ?, ?, ?)
+            (title, price)
+        values (?, ?)
     `;
 
-        const [result] = await connection.query(menuSql, [
-            userId,
-            title,
-            thumbnail,
-            price,
-        ]);
+        await conn.query(
+            menuSql,
+            [title, price],
+            connection,
+        );
 
-        return result.insertId;
     },
 
     updateMenu: async (menuId, title, thumbnail, price, connection) => {
-        const menuSql = `
+        const uptdateMenuSql = `
         UPDATE menus
         SET title = ?, thumbnail = ?, price = ?, updatedAt = CURRENT_TIMESTAMP()
         WHERE menuId = ?;
     `;
 
-        const [result] = await connection.query(menuSql, [
-            title,
-            thumbnail,
-            price,
-            menuId,
-        ]);
-
-        return result.affectedRows > 0;
+        await conn.query(
+            uptdateMenuSql,
+            [title, price],
+            connection,
+        );
     },
+
+    updateMenuStatus: async (menuId, status, connection) => {
+        const updateStatusSql = `
+      UPDATE menu
+      SET status = ?, updatedAt = CURRENT_TIMESTAMP()
+      WHERE menuId = ?;
+    `;
+
+        await conn.query(
+            updateStatusSql,
+            [menuId, status],
+            connection,
+        );
+
+    },
+
+
+
     deleteMenu: async (menuId) => {
-        const menuSql = `
+        const deleteMenuSql = `
             DELETE FROM menus WHERE menuId = ?;
     `;
 
-        const [result] = await conn.query(menuSql, [menuId]);
-
-        return result.affectedRows > 0;
+        await conn.query(
+            deleteMenuSql,
+            [menuId],
+        );
     },
 };

@@ -13,23 +13,21 @@ const menuController = express.Router();
 
 menuController.post("/regist", async (req, res, next) => {
     try {
-        const { title, thumbnail, price } =
+        const { title, price } =
             req.body;
-        const userId = req.session.user.userId;
+        console.log(title, price)
         validMenuTitle("title", title);
         validMenuPrice("price", price);
 
         const menuId = await transaction(async (connection) => {
             return await menuRepository.saveMenu(
-                userId,
                 title,
-                thumbnail,
                 price,
                 connection
             );
         });
 
-        const menuDto = menuConverter.toMenuDetail(menu);
+        const menuDto = menuConverter.toMenuDetail(menuId);
 
         res.status(200).json(
             apiResponse.success({
