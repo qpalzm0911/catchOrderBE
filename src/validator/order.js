@@ -1,6 +1,6 @@
 import orderRepository from "../repository/orderRepository.js";
 import CustomError from "../error/Error.js";
-import {BlankCheck, LengthCheck} from "./common.js";
+import {BlankCheck, LengthCheck, NumberType, InRange} from "./common.js";
 
 export const validOrderId = async (key, value) => {
     BlankCheck(key, value)
@@ -10,6 +10,12 @@ export const validOrderId = async (key, value) => {
     }
 }
 
-export const validOrderCount = async (key, value) => {
-    BlankCheck(key, value)
+
+export const validOrderStatus = (key, value) => {
+    try {
+        NumberType(key, value);
+        InRange(key, value, 0, 2);
+    }catch (e) {
+        throw new CustomError(`${key}는 0또는 1또는 2이어야 합니다.`)
+    }
 }

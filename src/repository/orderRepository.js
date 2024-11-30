@@ -1,62 +1,51 @@
 import conn from "../db/connection.js";
 
 export default {
-    createOrder: async (menuId, userId, status, count, connection) => {
-        const orderSql = `
-        INSERT INTO Order
-            (menuId, userId, status, count)
-        values (?, ?, ?, ?)
+
+    async getAllOrders(connection) {
+        const allOrderSql = `
+      SELECT *
+      FROM Orders;
     `;
 
-        const [result] = await connection.query(orderSql, [
-            menuId,
-            userId,
-            status,
-            count,
-        ]);
-
-        // 생성된 orderId 반환
-        return result.insertId;
-
+        const res = await conn.query(
+            allOrderSql,
+            connection,
+        )
+        return res[0]
     },
-
-    // async getAllOrders(connection) {
-    //     const query = `
-    //   SELECT * FROM orders;
-    // `;
-    //     const [orders] = await connection.query(query);
-    //     return orders;
-    // },
 
     async getOrderById(orderId, connection) {
-        const query = `
-      SELECT * FROM Order WHERE orderId = ?;
-    `;
-        const [rows] = await connection.query(query, [orderId]);
-        return rows[0]; // 단일 주문 반환
-    },
-
-    updateOrder: async (orderId, menuId, userId, status, count, connection) => {
-        const orderSql = `
-        UPDATE Order
-        SET menuId = ?, userId = ?, status = ?, count = ?, updatedAt = CURRENT_TIMESTAMP()
-        WHERE orderId = ?;
+        const specificOrderSql = `
+      SELECT orderId
+      FROM Orders
+      WHERE orderId = ?;
     `;
 
-        const [result] = await connection.query(orderSql, [menuId, userId, status, count, orderId]);
+        const res = await conn.query(
+            specificOrderSql,
+            [orderId],
+            connection
+        )
 
-        // 업데이트 성공 여부 반환
-        return result.affectedRows > 0;
+        return res[0]
     },
-    deleteOrder: async (orderId) => {
-        const orderSql =
-            `DELETE FROM Order
-            WHERE orderId = ?;
+
+    updateOrderStatus: async (orderId, status, connection) => {
+        const updateOrderSql = `
+      UPDATE Order
+      SET status = ?
+      WHERE orderId = ?;
     `;
 
-        const [result] = await conn.query(orderSql, [orderId]);
-
-        // 삭제 성공 여부 반환
-        return result.affectedRows > 0;
+        const res = await conn.query(
+            updateOrderSql,
+            [status, orderId],
+            connection,
+        );
+        return res.affectedRows
     },
+
+
+
 };

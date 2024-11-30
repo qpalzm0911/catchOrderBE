@@ -2,52 +2,29 @@ import express from "express";
 import orderRepository from "../repository/orderRepository.js";
 import apiResponse from "../dto/apiResponse.js";
 import orderConverter from "../dto/orderConverter.js";
+import {validOrderId, validOrderStatus} from "../validator/order.js";
+import connection, {transaction} from "../db/connection.js";
 
 
 
 
 const orderController = express.Router();
 
-//주문 생성
-orderController.get("/orders", async (res, req, next) =>{
+//주문 조회 (전체)
+orderController.get("/orders/:orderId", async (res, req, next) =>{
     try{
-        const { menuId, userId, status, count } = req.body;
+        const orders = await orderRepository.getAllOrders(req.connection);
 
-        const orderId = await orderRepository.createOrder(
-            menuId,
-            userId,
-            status,
-            count,
-            req.connection, // DB connection 전달
-        );
 
-        res.status(201).json(
+        res.status(200).json(
             apiResponse.success({
-                message: '주문 생성에 성공했습니다.',
-                orderId,
+                data: orderDtos,
             }),
         );
     }catch (e) {
         next(e);
     }
 });
-
-//주문 조회 (전체)
-// orderController.get("/orders/:orderId", async (res, req, next) =>{
-//     try{
-//         const orders = await orderRepository.getAllOrders(req.connection);
-//
-//         const orderDtos = orders.map(orderConverter.entityToDto);
-//
-//         res.status(200).json(
-//             apiResponse.success({
-//                 data: orderDtos,
-//             }),
-//         );
-//     }catch (e) {
-//         next(e);
-//     }
-// });
 
 // 주문 조회 (특정 주문)
 orderController.get('/orders/:orderId', async (req, res, next) => {
@@ -77,60 +54,38 @@ orderController.get('/orders/:orderId', async (req, res, next) => {
 });
 
 
-//주문 수정
-orderController.put("/orders/:orderId", async (res, req, next) =>{
+
+orderController.put("/status", async (req, res, next) => {
     try{
-        const { orderId } = req.params;
-        const { menuId, userId, status, count } = req.body;
+        const {orderId, status} = req.body;
 
-        const isUpdated = await orderRepository.updateOrder(
-            orderId,
-            menuId,
-            userId,
-            status,
-            count,
-            req.connection,
-        );
+        await validOrderId("orderId", orderId);
+        await validOrderStatus("status", status);
 
-        if (!isUpdated) {
+        const isStatusUpdated = await transaction(async (connection) => {
+            return await orderRepository.updateOrderStatus(
+                orderId,
+                status,
+                connection
+            );
+        });
+        if (!isStatusUpdated) {
             return res.status(400).json(
                 apiResponse.failure({
-                    message: '주문 수정에 실패했습니다.',
-                }),
+                    message: "상태 수정에 실패하였습니다."
+                })
             );
         }
 
         res.status(200).json(
             apiResponse.success({
-                message: '주문 수정에 성공했습니다.',
-            }),
+                message: "상태 수정에 성공하였습니다.",
+                result: {status},
+            })
         );
-    }catch (e) {
+    } catch (e) {
         next(e);
     }
-});
-
-orderController.delete("/orders/delete", async (res, req, next) =>{
-    try{
-        const { orderId } = req.body;
-        const isDeleted = await orderRepository.deleteOrder(orderId, req.connection);
-
-        if (!isDeleted) {
-            return res.status(400).json(
-                apiResponse.failure({
-                    message: '주문 삭제에 실패했습니다.',
-                }),
-            );
-        }
-
-        res.status(200).json(
-            apiResponse.success({
-                message: '주문 삭제에 성공했습니다.',
-            }),
-        );
-    }catch (e) {
-        next(e);
-    }
-});
+})
 
 export default orderController;
