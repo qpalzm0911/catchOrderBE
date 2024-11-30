@@ -7,9 +7,10 @@ export default {
 
         return {
             menuId: menu.menuId,
-            title: menu.title,
+            menuName: menu.menuName,
             thumbnail: menu.thumbnail,
-            price: menu.price,
+            menuPrice: menu.menuPrice,
+            status: menu.status,
             createdAt: menu.createdAt,
         };
     },

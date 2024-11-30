@@ -3,7 +3,7 @@ import conn from "../db/connection.js";
 export default {
     createOrder: async (menuId, userId, status, count, connection) => {
         const orderSql = `
-        INSERT INTO orders
+        INSERT INTO Order
             (menuId, userId, status, count)
         values (?, ?, ?, ?)
     `;
@@ -30,7 +30,7 @@ export default {
 
     async getOrderById(orderId, connection) {
         const query = `
-      SELECT * FROM orders WHERE orderId = ?;
+      SELECT * FROM Order WHERE orderId = ?;
     `;
         const [rows] = await connection.query(query, [orderId]);
         return rows[0]; // 단일 주문 반환
@@ -38,7 +38,7 @@ export default {
 
     updateOrder: async (orderId, menuId, userId, status, count, connection) => {
         const orderSql = `
-        UPDATE orders
+        UPDATE Order
         SET menuId = ?, userId = ?, status = ?, count = ?, updatedAt = CURRENT_TIMESTAMP()
         WHERE orderId = ?;
     `;
@@ -50,7 +50,7 @@ export default {
     },
     deleteOrder: async (orderId) => {
         const orderSql =
-            `DELETE FROM orders
+            `DELETE FROM Order
             WHERE orderId = ?;
     `;
 

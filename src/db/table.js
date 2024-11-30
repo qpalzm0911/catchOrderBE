@@ -1,46 +1,45 @@
 export default {
-    users: `
-      CREATE TABLE IF NOT EXISTS users
+    User: `
+      CREATE TABLE IF NOT EXISTS User
       (
           userId    Int not null auto_increment PRIMARY KEY,
           tableId   Int not null,
-          imgUrl    TEXT not null,
-          name  varchar(10)  not null,
-          phoneNumber   varchar(11) not null,
+          name  varchar(10) null,
+          phoneNumber   varchar(11) null,
           verifyCode    Int not null,
-          status    Int not null,
+          status    Int not null  DEFAULT 1,
           createdAt timestamp    not null default current_timestamp()
       );
   `,
 
-    menus: `
-      CREATE TABLE IF NOT EXISTS menus
+    Menu: `
+      CREATE TABLE IF NOT EXISTS Menu
       (
           menuId    Int  not null auto_increment PRIMARY KEY,
           menuName  varchar(20) not null,
           menuPrice Int not null,
-          description   Int not null,
-          status    Int not null,
+          imgUrl    TEXT not null,
+          status    Int not null DEFAULT 0,
           createdAt timestamp    not null default current_timestamp()
       )
   `,
 
-    orders: `
-      CREATE TABLE IF NOT EXISTS orders
+    Order: `
+      CREATE TABLE IF NOT EXISTS Orders
       (
-          orderId   Int not null auto_increment   PRIMARY KEY,
+          orderId   Int not null auto_increment PRIMARY KEY,
           menuId    Int not null,
           userId    Int not null,
           count     Int not null,
-          status    Int not null,
+          status    Int not null DEFAULT 0,
           createdAt timestamp    not null default current_timestamp()
       )
   `,
-    tables: `
-      CREATE TABLE IF NOT EXISTS tables
+    Table: `
+      CREATE TABLE IF NOT EXISTS Tables
       (
           tableId   Int not null  auto_increment  PRIMARY KEY,
-          status    Int not null
+          status    Int not null  DEFAULT 0
       )
   `,
 };

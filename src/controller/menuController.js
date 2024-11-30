@@ -2,8 +2,8 @@ import express from "express";
 import menuRepository from "../repository/menuRepository.js";
 import {
     validMenuId,
-    validMenuTitle,
-    validMenuPrice,
+    validMenuName,
+    validMenuPrice, validMenuStatus,
 } from "../validator/menu.js";
 import {transaction} from "../db/connection.js";
 import apiResponse from "../dto/apiResponse.js";
@@ -13,16 +13,16 @@ const menuController = express.Router();
 
 menuController.post("/regist", async (req, res, next) => {
     try {
-        const { title, price } =
+        const { menuName, menuPrice } =
             req.body;
-        console.log(title, price)
-        validMenuTitle("title", title);
-        validMenuPrice("price", price);
+        console.log(menuName, menuPrice)
+        validMenuName("menuName", menuName);
+        validMenuPrice("menuPrice", menuPrice);
 
         const menuId = await transaction(async (connection) => {
             return await menuRepository.saveMenu(
-                title,
-                price,
+                menuName,
+                menuPrice,
                 connection
             );
         });
@@ -42,23 +42,19 @@ menuController.post("/regist", async (req, res, next) => {
 
 menuController.put("/update", async (req, res, next) => {
     try {
-        const {menuId, title, thumbnail, price,} =
+        const {menuId, menuName, menuPrice,} =
             req.body;
 
         await validMenuId("menuId", menuId);
-        validMenuTitle("title", title);
-        validMenuPrice("price", price);
 
         const isUpdated = await transaction(async (connection) => {
             return await menuRepository.updateMenu(
                 menuId,
-                title,
-                thumbnail,
-                price,
+                menuName,
+                menuPrice,
                 connection
             );
         });
-
         if (!isUpdated) {
             return res.status(400).json(
                 apiResponse.failure({
@@ -77,24 +73,32 @@ menuController.put("/update", async (req, res, next) => {
         next(e);
     }
 });
-menuController.delete("/delete", async (req, res, next) => {
+menuController.put("/delete", async (req, res, next) => {
     try {
-        const { menuId } = req.body;
-        const isDeleted = await transaction(async (connection) => {
-            return await menuRepository.deleteMenu(menuId, connection);
-        });
+        const {menuId, status } = req.body;
 
-        if (!isDeleted) {
+        await validMenuId("menuId", menuId);
+        await validMenuStatus("status", status);
+
+        const isStatusUpdated = await transaction(async (connection) => {
+            return await menuRepository.updateMenuStatus(
+                menuId,
+                status,
+                connection
+            );
+        });
+        if (!isStatusUpdated) {
             return res.status(400).json(
                 apiResponse.failure({
-                    message: "메뉴 삭제에 실패했습니다.",
+                    message: "스테이터스 수정에 실패했습니다.",
                 })
             );
         }
 
         res.status(200).json(
             apiResponse.success({
-                message: "메뉴 삭제에 성공했습니다.",
+                message: "스테이터스 수정에 성공했습니다.",
+                result: { status },
             })
         );
     } catch (e) {
