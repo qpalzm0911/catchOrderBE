@@ -11,6 +11,26 @@ import menuConverter from "../dto/menuConverter.js";
 
 const menuController = express.Router();
 
+menuController.get("/getMenu", async(req,res, next)=>{
+   try{
+       const menuList = await transaction(async(connection) =>{
+           return await menuConverter.toMenuList(await menuRepository.getMenu(connection));
+
+       });
+       if(menuList){
+           res.status(200).json(
+               apiResponse.success({message:"메뉴조회에 성공했습니다.", result: menuList})
+           )
+       }else{
+           res.status(500).json(
+               apiResponse.failure({message:"메뉴조회에 실패했습니다."})
+           )
+       }
+   } catch (e){
+       next(e);
+   }
+});
+
 menuController.post("/regist", async (req, res, next) => {
     try {
         const { menuName, menuPrice } =

@@ -6,10 +6,11 @@ import orderController from "./src/controller/orderController.js"
 import cors from "cors";
 import session from "./src/db/session.js";
 import {initDB} from "./src/db/connection.js";
+import tableController from "./src/controller/tableController.js";
 
 const app = express();
 
-app.use(session);
+// app.use(session);
 
 app.use(cors({
     origin : ["http://localhost:3000", "*"],
@@ -24,6 +25,7 @@ app.use(express.urlencoded({extended: true}))
 // app.use("/api/auth", authController);
 app.use("/api/menu", menuController);
 app.use("/api/order", orderController);
+app.use("/api/table", tableController);
 
 // app.use(errorHandler);
 

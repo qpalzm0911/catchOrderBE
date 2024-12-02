@@ -1,6 +1,22 @@
 import conn from "../db/connection.js";
 
 export default {
+    getMenu: async(connection) => {
+        const sql = `
+        SELECT
+        menuId,
+        menuName,
+        menuPrice,
+        imgUrl,
+        status
+        FROM Menu
+        `;
+
+        const res = await conn.query(sql,[], connection);
+
+        return res;
+    },
+
     saveMenu: async (menuName, menuPrice, connection) => {
         const imgUrl = "";
         const menuSql = `
