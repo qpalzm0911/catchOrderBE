@@ -27,7 +27,7 @@ export default {
     Order: `
       CREATE TABLE IF NOT EXISTS Orders
       (
-          orderId   Int not null auto_increment PRIMARY KEY,
+          orderId   Int not null,
           menuId    Int not null,
           userId    Int not null,
           count     Int not null,

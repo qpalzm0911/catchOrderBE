@@ -7,7 +7,7 @@ dotenv.config();
 
 // 이 부분은 각자 설정에 맞게 조정
 export const conn = mysql2.createPool({
-    host: process.env.HOST_NAME,
+    host: process.env.DB_HOST,
     port: 3306,
     user: process.env.DB_USER,
     maxIdle: 10,
