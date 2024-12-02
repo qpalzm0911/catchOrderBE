@@ -5,6 +5,7 @@ import orderConverter from "../dto/orderConverter.js";
 import {validOrderId, validOrderStatus} from "../validator/order.js";
 import connection, {transaction} from "../db/connection.js";
 import tableConverter from "../dto/tableConverter.js";
+import {validTableId, validTableStatus} from "../validator/table.js";
 
 
 
@@ -23,5 +24,19 @@ tableController.get("/getTable", async(req,res,next)=>{
     }
 });
 
+
+tableController.put("/status", async (req, res, next) =>{
+    try {
+        const {tableId, status} = req.body;
+
+        await validTableId("tableId", tableId);
+        await validTableStatus("status", status);
+
+        con
+
+    }catch (e) {
+        next(e);
+    }
+})
 
 export default tableController;

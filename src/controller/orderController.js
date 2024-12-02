@@ -10,42 +10,52 @@ import connection, {transaction} from "../db/connection.js";
 
 const orderController = express.Router();
 
-//주문 조회 (전체)
-orderController.get("/orders/:orderId", async (res, req, next) =>{
-    try{
-        const orders = await orderRepository.getAllOrders(req.connection);
-
-
-        res.status(200).json(
-            apiResponse.success({
-                data: orderDtos,
-            }),
-        );
-    }catch (e) {
-        next(e);
-    }
-});
-
-// 주문 조회 (특정 주문)
-orderController.get('/orders/:orderId', async (req, res, next) => {
+// 전체 주문 조회
+orderController.get("/orders", async (req, res, next) => {
     try {
-        const { orderId } = req.params;
+        const orders = await orderRepository.getAllOrders(connection);
 
-        const order = await orderRepository.getOrderById(orderId, req.connection);
-
-        if (!order) {
+        if (!orders || orders.length === 0) {
             return res.status(404).json(
                 apiResponse.failure({
-                    message: '해당 주문을 찾을 수 없습니다.',
+                    message: "주문 목록이 비어있습니다.",
                 }),
             );
         }
 
-        const orderDto = orderConverter.toOrderDetail(order);
+        const convertedOrders = await orderConverter.toOrderList(orders);
 
         res.status(200).json(
             apiResponse.success({
-                data: orderDto,
+                orders: convertedOrders,
+            }),
+        );
+    } catch (e) {
+        next(e);
+    }
+});
+
+// 특정 주문 조회
+orderController.get("/orders/:orderId", async (req, res, next) => {
+    try {
+        const { orderId } = req.body;
+
+        const order = await orderRepository.getOrderById(orderId, connection);
+
+        if (!order) {
+            return res.status(404).json(
+                apiResponse.failure({
+                    message: "해당 주문을 찾을 수 없습니다.",
+                }),
+            );
+        }
+
+        const convertedOrder = await orderConverter.toOrderDetail(order);
+
+
+        res.status(200).json(
+            apiResponse.success({
+                order: convertedOrder,
             }),
         );
     } catch (e) {

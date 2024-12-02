@@ -2,23 +2,37 @@ import menuRepository from '../repository/menuRepository.js';
 
 
 export default {
+    async toOrderList(orders) {
+        return {
+            orderId: orders.orderId,
+            tableId: orders.tableId,
+            status: orders.status,
+            createdAt: orders.createdAt,
+        };
+
+    },
+
     async toOrderDetail(order) {
-
-        //const findUser = await userRepository.findById(order.userId);
-        // 주문한 메뉴 정보 조회
-        const findMenu = await menuRepository.findById(order.menuId);
-
-        // 결과 반환
         return {
             orderId: order.orderId,
-            status: order.status,
-            count: order.count,
+            tableId: order.tableId,
+            status: this.convertOrderStatus(order.status),
             createdAt: order.createdAt,
-            menu: findMenu ? {
-                menuId: findMenu.menuId,
-                menuName: findMenu.menuName,
-                menuPrice: findMenu.menuPrice,
-            } : null,
         };
     },
+
+    convertOrderStatus(status) {
+        switch (status) {
+            case 0:
+                return "대기중";
+            case 1:
+                return "준비중";
+            case 2:
+                return "완료";
+            case 3:
+                return "취소됨";
+            default:
+                return "알 수 없음";
+        }
+    }
 };
