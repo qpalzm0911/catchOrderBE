@@ -90,14 +90,14 @@ menuController.put("/delete", async (req, res, next) => {
         if (!isStatusUpdated) {
             return res.status(400).json(
                 apiResponse.failure({
-                    message: "스테이터스 수정에 실패했습니다.",
+                    message: "상태 수정에 실패했습니다.",
                 })
             );
         }
 
         res.status(200).json(
             apiResponse.success({
-                message: "스테이터스 수정에 성공했습니다.",
+                message: "상태 수정에 성공했습니다.",
                 result: { status },
             })
         );
