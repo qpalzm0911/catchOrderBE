@@ -8,6 +8,7 @@ import {
 import {transaction} from "../db/connection.js";
 import apiResponse from "../dto/apiResponse.js";
 import menuConverter from "../dto/menuConverter.js";
+import { upload_single } from "../aws/s3.js";
 
 const menuController = express.Router();
 
@@ -31,18 +32,18 @@ menuController.get("/getMenu", async(req,res, next)=>{
    }
 });
 
-menuController.post("/regist", async (req, res, next) => {
+menuController.post("/regist",
+    upload_single("menuImage"),
+    async (req, res, next) => {
     try {
-        const { menuName, menuPrice } =
-            req.body;
-        console.log(menuName, menuPrice)
-        validMenuName("menuName", menuName);
-        validMenuPrice("menuPrice", menuPrice);
+        const { menuName, menuPrice } = req.body;
+        const menuImage = req.file;
 
         const menuId = await transaction(async (connection) => {
             return await menuRepository.saveMenu(
                 menuName,
                 menuPrice,
+                menuImage.location,
                 connection
             );
         });
