@@ -18,7 +18,7 @@ export const conn = mysql2.createPool({
 
 export default {
     async query(queryString = "", params = [], connection) {
-        const [rows] = await (connection ?? conn).execute(queryString, params);
+        const [rows] = await (connection ?? conn).query(queryString, params);
         return rows;
     },
 };

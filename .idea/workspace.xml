@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d7dc57ec-55bc-4e01-a390-e43c21521074" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/controller/tableController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dto/tableConverter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repository/tableRepository.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/menuController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/menuController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dto/menuConverter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dto/menuConverter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/db/connection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/db/connection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository/menuRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/menuRepository.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

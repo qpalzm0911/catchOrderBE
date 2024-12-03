@@ -16,6 +16,14 @@ export default {
 
         return res;
     },
+    statusChange: async(menuId, connection) => {
+        const data = [...menuId]
+        const sql = `
+        UPDATE Menu SET status = 1 WHERE menuId in (?)`;
+        const res = await conn.query(sql, [data], connection);
+
+        return res;
+    },
 
     saveMenu: async (menuName, menuPrice, connection) => {
         const imgUrl = "";
