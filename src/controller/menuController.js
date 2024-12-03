@@ -31,6 +31,7 @@ menuController.get("/getMenu", async(req,res, next)=>{
        next(e);
    }
 });
+// menuController.put("/statusChange", async(req,res,next)=>{})
 
 menuController.post("/regist",
     upload_single("menuImage"),
@@ -38,7 +39,6 @@ menuController.post("/regist",
     try {
         const { menuName, menuPrice } = req.body;
         const menuImage = req.file;
-
         const menuId = await transaction(async (connection) => {
             return await menuRepository.saveMenu(
                 menuName,
