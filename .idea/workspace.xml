@@ -6,12 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="d7dc57ec-55bc-4e01-a390-e43c21521074" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/controller/menuController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/menuController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/orderController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/orderController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/tableController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/tableController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dto/tableConverter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dto/tableConverter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository/orderRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/orderRepository.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository/tableRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/tableRepository.js" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/dto/orderConverter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dto/orderConverter.js" afterDir="false" />
+>>>>>>> 5f6671241f9b632293881e425a8d55fa4b9a757d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,14 +44,14 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/nunu1/Desktop/capstone/catchOrderBE&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/박윤선/catchOrderBE&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -88,8 +92,11 @@
       <workItem from="1732850175481" duration="4905000" />
       <workItem from="1732873738170" duration="6893000" />
       <workItem from="1732948827390" duration="11439000" />
+<<<<<<< HEAD
       <workItem from="1733146644817" duration="6303000" />
       <workItem from="1733192842078" duration="14920000" />
+=======
+>>>>>>> 5f6671241f9b632293881e425a8d55fa4b9a757d
     </task>
     <servers />
   </component>
@@ -98,15 +105,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="LAST_COMMIT_MESSAGE" value="" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/db/connection.js</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

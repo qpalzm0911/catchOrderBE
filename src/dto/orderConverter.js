@@ -6,7 +6,7 @@ export default {
         return {
             orderId: orders.orderId,
             tableId: orders.tableId,
-            status: orders.status,
+            status: this.convertOrderStatus(order.status),
             createdAt: orders.createdAt,
         };
 
