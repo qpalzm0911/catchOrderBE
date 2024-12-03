@@ -25,22 +25,16 @@ export default {
         return res;
     },
 
-    saveMenu: async (menuName, menuPrice, connection) => {
-        const imgUrl = "";
-        const menuSql = `
-        INSERT INTO Menu
-            (menuName, menuPrice, imgUrl)
-        values (?, ?, ?)
-     
-    `;
+    saveMenu: async (menuName, menuPrice, imgUrl, connection) => {
+        const sql =`
+        insert into Menu (menuName, menuPrice, imgUrl)
+        value (?, ?, ?)`;
 
-        await conn.query(
-            menuSql,
-            [menuName, menuPrice, imgUrl],
-            connection,
-        );
-
+        const [result] = await connection.execute(sql, [menuName, menuPrice, imgUrl]);
+        return result;
     },
+
+
 
     updateMenu: async (menuId, menuName, menuPrice, connection) => {
         const uptdateMenuSql = `

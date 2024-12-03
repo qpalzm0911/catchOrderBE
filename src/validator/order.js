@@ -6,7 +6,7 @@ export const validOrderId = async (key, value) => {
     BlankCheck(key, value)
     const findOrder = await orderRepository.findById(value);
     if(!findOrder) {
-        throw new CustomError(`${key}에 해당하는 메뉴가 없습니다.`, 400);
+        throw new CustomError(`${key}에 해당하는 주문이 없습니다.`, 400);
     }
 }
 

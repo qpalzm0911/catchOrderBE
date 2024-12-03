@@ -7,7 +7,6 @@
     <list default="true" id="d7dc57ec-55bc-4e01-a390-e43c21521074" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/menuController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/menuController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/db/connection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/db/connection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository/menuRepository.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/menuRepository.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,14 +36,14 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/박윤선/catchOrderBE",
+    "last_opened_file_path": "C:/Users/nunu1/Desktop/capstone/catchOrderBE",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "C:\\Users\\nunu1\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -63,7 +62,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-WS-242.21829.149" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-WS-242.20224.342" />
       </set>
     </attachedChunks>
   </component>
@@ -84,19 +83,22 @@
       <workItem from="1732613796088" duration="7998000" />
       <workItem from="1732850175481" duration="4905000" />
       <workItem from="1732873738170" duration="6893000" />
-      <workItem from="1732948827390" duration="8359000" />
-      <workItem from="1732960307778" duration="904000" />
+      <workItem from="1732948827390" duration="11439000" />
+      <workItem from="1733146644817" duration="6303000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/controller/menuController.js</url>
+          <url>file://$PROJECT_DIR$/src/db/connection.js</url>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>

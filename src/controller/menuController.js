@@ -8,6 +8,7 @@ import {
 import {transaction} from "../db/connection.js";
 import apiResponse from "../dto/apiResponse.js";
 import menuConverter from "../dto/menuConverter.js";
+import { upload_single } from "../aws/s3.js";
 
 const menuController = express.Router();
 
@@ -31,30 +32,18 @@ menuController.get("/getMenu", async(req,res, next)=>{
    }
 });
 
-menuController.put("/statusChange", async(req,res,next)=>{
-   const {menuId} = req.body;
-   const change = await transaction(async(connection) =>{
-      return await menuRepository.statusChange(menuId, connection);
-   });
-   console.log(change)
-   if(change){
-       res.status(200).json(apiResponse.success({message:"매진처리에 성공했습니다.", result: change}));
-   }
-
-});
-
-menuController.post("/regist", async (req, res, next) => {
+menuController.post("/regist",
+    upload_single("menuImage"),
+    async (req, res, next) => {
     try {
-        const { menuName, menuPrice } =
-            req.body;
-        console.log(menuName, menuPrice)
-        validMenuName("menuName", menuName);
-        validMenuPrice("menuPrice", menuPrice);
+        const { menuName, menuPrice } = req.body;
+        const menuImage = req.file;
 
         const menuId = await transaction(async (connection) => {
             return await menuRepository.saveMenu(
                 menuName,
                 menuPrice,
+                menuImage.location,
                 connection
             );
         });

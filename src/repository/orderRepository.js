@@ -17,7 +17,7 @@ export default {
 
     async getOrderById(orderId, connection) {
         const specificOrderSql = `
-      SELECT orderId
+      SELECT *
       FROM Orders
       WHERE orderId = ?;
     `;
@@ -44,6 +44,21 @@ export default {
             connection,
         );
         return res.affectedRows
+    },
+
+    getOrder: async(connection) => {
+        const sql = `
+        SELECT
+        orderId,
+        menuId,
+        UserId,
+        status
+        FROM Order
+        `;
+
+        const res = await conn.query(sql,[], connection);
+
+        return res;
     },
 
 
