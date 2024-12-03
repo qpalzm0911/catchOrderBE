@@ -31,7 +31,16 @@ menuController.get("/getMenu", async(req,res, next)=>{
        next(e);
    }
 });
-// menuController.put("/statusChange", async(req,res,next)=>{})
+menuController.put("/statusChange", async(req,res,next)=>{
+    const {menuId} = req.body;
+    const change = await transaction(async(connection) =>{
+        return await menuRepository.statusChange(menuId, connection);
+    });
+    console.log(change)
+    if(change){
+        res.status(200).json(apiResponse.success({message:"매진처리에 성공했습니다.", result: change}));
+    }
+});
 
 menuController.post("/regist",
     upload_single("menuImage"),

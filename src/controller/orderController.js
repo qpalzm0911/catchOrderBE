@@ -11,59 +11,70 @@ import connection, {transaction} from "../db/connection.js";
 const orderController = express.Router();
 
 // 전체 주문 조회
-orderController.get("/orders", async (req, res, next) => {
-    try {
-        const orders = await orderRepository.getAllOrders(connection);
-
-        if (!orders || orders.length === 0) {
-            return res.status(404).json(
-                apiResponse.failure({
-                    message: "주문 목록이 비어있습니다.",
-                }),
-            );
-        }
-
-        const convertedOrders = await orderConverter.toOrderList(orders);
-
-        res.status(200).json(
-            apiResponse.success({
-                orders: convertedOrders,
-            }),
-        );
-    } catch (e) {
-        next(e);
-    }
-});
+// orderController.get("/orders", async (req, res, next) => {
+//     try {
+//         const orders = await orderRepository.getAllOrders(connection);
+//
+//         if (!orders || orders.length === 0) {
+//             return res.status(404).json(
+//                 apiResponse.failure({
+//                     message: "주문 목록이 비어있습니다.",
+//                 }),
+//             );
+//         }
+//
+//         const convertedOrders = await orderConverter.toOrderList(orders);
+//
+//         res.status(200).json(
+//             apiResponse.success({
+//                 orders: convertedOrders,
+//             }),
+//         );
+//     } catch (e) {
+//         next(e);
+//     }
+// });
 
 // 특정 주문 조회
-orderController.get("/orders/:orderId", async (req, res, next) => {
+orderController.get("/orders", async (req, res, next) => {
     try {
-        const { orderId } = req.body;
+        const tableId = req.query.tableId;
+        console.log(tableId);
+        const orderList = await transaction(async(connection) =>{
+            return await orderRepository.getOrderById(tableId, connection);
+        })
 
-        const order = await orderRepository.getOrderById(orderId, connection);
+        res.status(200).json(apiResponse.success({message: "주문조회 성공", result:orderList}));
 
-        if (!order) {
-            return res.status(404).json(
-                apiResponse.failure({
-                    message: "해당 주문을 찾을 수 없습니다.",
-                }),
-            );
-        }
+        // else if (!orderList) {
+        //     res.status(404).json(
+        //         apiResponse.failure({
+        //             message: "해당 주문을 찾을 수 없습니다.",
+        //         }),
+        //     );
+        // }
 
-        const convertedOrder = await orderConverter.toOrderDetail(order);
-
-
-        res.status(200).json(
-            apiResponse.success({
-                order: convertedOrder,
-            }),
-        );
+        // const convertedOrder = await orderConverter.toOrderDetail(order);
+        //
+        //
+        // res.status(200).json(
+        //     apiResponse.success({
+        //         order: convertedOrder,
+        //     }),
+        // );
     } catch (e) {
         next(e);
     }
 });
 
-
+orderController.get("/getOrder", async (req, res, next) => {
+   try{
+       const{tableId} = req.body;
+       const order = await orderRepository.getOrderByTableId(tableId, connection);
+   }catch (error){
+       next(error);
+   }
+});
 
 orderController.put("/status", async (req, res, next) => {
     try{

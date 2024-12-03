@@ -28,11 +28,26 @@ tableController.get("/getTable", async(req,res,next)=>{
 tableController.put("/status", async (req, res, next) =>{
     try {
         const {tableId, status} = req.body;
-
-        await validTableId("tableId", tableId);
-        await validTableStatus("status", status);
-
-        con
+        console.log(tableId, status);
+        let code = -1;
+        switch (status) {
+            case "예약":
+                code = 2
+                break;
+            case "마감":
+                code = 3
+                break
+            case "사용가능":
+                code = 0
+                break
+        }
+        console.log(code);
+        const statusChange = await transaction(async(connection) =>{
+            return await tableRepository.updateTableStatus(Number(tableId), code, connection);
+        })
+        if(statusChange){
+            res.status(200).json(apiResponse.success({message:"테이블 상태변경성공", result: statusChange}));
+        }
 
     }catch (e) {
         next(e);

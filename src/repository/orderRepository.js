@@ -15,16 +15,22 @@ export default {
         return res[0]
     },
 
-    async getOrderById(orderId, connection) {
+    async getOrderById(tableId, connection) {
         const specificOrderSql = `
       SELECT *
-      FROM Orders
-      WHERE orderId = ?;
+      FROM Orders o
+      LEFT JOIN User u on u.userId = o.userId
+      WHERE 
+      u.tableId = ?
+      AND
+      o.status = 0
+      AND
+      u.status = 1;
     `;
 
         const res = await conn.query(
             specificOrderSql,
-            [orderId],
+            [tableId],
             connection
         )
 
@@ -33,7 +39,7 @@ export default {
 
     updateOrderStatus: async (orderId, status, connection) => {
         const updateOrderSql = `
-      UPDATE Order
+      UPDATE Orders
       SET status = ?
       WHERE orderId = ?;
     `;
@@ -53,14 +59,24 @@ export default {
         menuId,
         UserId,
         status
-        FROM Order
+        FROM Orders
         `;
 
         const res = await conn.query(sql,[], connection);
 
         return res;
     },
-
+    getOrderByTableId: async(tableId, connection) => {
+        const sql =`
+        SELECT
+        m.menuName as menuName,
+        m.menuPrice as menuPrice,
+        o.count as count
+        FROM
+        Orders o
+        left join Menu m on m.menuId = o.menuId
+        where o.userId = (SELECT max(userId) FROM User WHERE t)`
+    }
 
 
 };

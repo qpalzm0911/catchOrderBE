@@ -11,12 +11,12 @@ export default {
                 connection,
             );
 
-            return res[0];
+            return res;
     },
 
     updateTableStatus: async (tableId, status, connection) => {
         const updateTablesql = `
-      UPDATE Table
+      UPDATE Tables
       SET status = ? 
       WHERE tableId = ?;
     `;
